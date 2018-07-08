@@ -1,4 +1,3 @@
-
 #ifndef THREADMANAGER_H_
 #define THREADMANAGER_H_
 
