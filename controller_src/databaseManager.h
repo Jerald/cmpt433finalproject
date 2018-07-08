@@ -1,0 +1,7 @@
+#ifndef DATABASEMANAGER_H_
+#define DATABASEMANAGER_H_
+
+
+
+
+#endif /* DATABASEMANAGER_H_ */

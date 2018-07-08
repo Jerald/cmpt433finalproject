@@ -1,0 +1,6 @@
+#ifndef MACHINEINTERFACE_H_
+#define MACHINEINTERFACE_H_
+
+
+
+#endif /* MACHINEINTERFACE_H_ */

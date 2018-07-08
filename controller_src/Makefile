@@ -2,9 +2,9 @@
 # by Brian Fraser
 
 # Edit this file to compile extra C files into their own programs.
-TARGET= beatbox
+TARGET= pop
 
-SOURCES= audioMixer.c beatController.c joystickReader.c accelerometerReader.c network.c main.c
+SOURCES= main.c threadManager.c
 
 
 PUBDIR = $(HOME)/cmpt433/public/myApps
