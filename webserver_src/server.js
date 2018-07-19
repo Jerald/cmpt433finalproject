@@ -1,20 +1,29 @@
-var express = require('express');
-var http = require('http');
-var fs   = require('fs');
-var path = require('path');
-var udpServer = require('./lib/udp_server');
+"use strict";
 
-var PORT_NUMBER = 8088;
-var app = module.exports.app = express();
+const express = require('express');
+const fs   = require('fs');
 
-var server = http.createServer(app);
-app.use(express.static('public'));
-app.get('/', function(req,res){
-	res.sendFile(path.join(__dirname + '/public/index.html'));
-})
+const SERVER_PORT = 8088;
+const server = express();
 
-server.listen(PORT_NUMBER, function() {
+// Helper functions
+function fileGetFunc(fileName, contentType)
+{
+    return (req, res) =>
+        res.sendFile(fileName, {root: __dirname, headers: {"Content-Type": contentType}});
+}
+
+// Server routing functions
+server.get("/style.css", fileGetFunc("style.css", "text/css"));
+server.get("/script.js", fileGetFunc("script.js", "application/js"));
+
+server.get("/", function (req, res)
+{
+    fileGetFunc("index.html", "text/html");
+});
+
+server.listen(PORT_NUMBER, function ()
+{
 	console.log("Server listeneing on port " + PORT_NUMBER);
 });
 
-udpServer.listen(server);

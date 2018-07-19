@@ -1,35 +1,28 @@
-# Makefile for building embedded application.
-# by Brian Fraser
+export CROSS_TOOL = arm-linux-gnueabihf-
+export CC := $(CROSS_TOOL)gcc
+export CXX := $(CROSS_TOOL)g++
 
-# Edit this file to compile extra C files into their own programs.
-TARGET= pop
-SOURCES= main.c threadManager.c
+export warningFlags = -Wall -Werror
+export debugFlags = -g -Og
+export libFlags = -pthread
+export miscFlags = -std=c99 -D_POSIX_C_SOURCE=200809L
+export flags := $(miscFlags) $(libFlags) $(debugFlags) $(warningFlags)
 
+export controllerOutName = controller.out
 
-PUBDIR = $(HOME)/cmpt433/public/myApps
-OUTDIR = $(PUBDIR)
-CROSS_TOOL = arm-linux-gnueabihf-
-CC_CPP = $(CROSS_TOOL)g++
-CC_C = $(CROSS_TOOL)gcc
+# Symlink the below folder to be where you want the actual output to be
+export outPath := $(CURDIR)/outFolder
 
-CFLAGS = -Wall -g -std=c99 -D _POSIX_C_SOURCE=200809L -Werror
+all:
+	echo "No 'all' target!"
 
-# -pg for supporting gprof profiling.
-#CFLAGS += -pg
+controller:
+	cd $(CURDIR)/controller_src && $(MAKE)
 
-
-
-all: app node
-
-app:
-	$(CC_C) $(CFLAGS) $(SOURCES) -o $(OUTDIR)/$(TARGET) -lpthread
-	
-node:
-	mkdir -p $(PUBDIR)/pop-server-copy/
-	cp -R web/* $(PUBDIR)/pop-server-copy/
-	
+sorter:
+	cd $(CURDIR)/webserver_src && $(MAKE)
 
 clean:
-	rm -f $(OUTDIR)/$(TARGET)
-	
-	
+	cd $(CURDIR)/controller_src && $(MAKE) clean
+	cd $(CURDIR)/webserver_src && $(MAKE) clean
+	# rm -f $(outPath)sorter.out $(outPath)/noworky.out
