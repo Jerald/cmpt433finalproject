@@ -18,8 +18,16 @@ int joinThread(pthread_t thread)
     return pthread_join(thread, NULL);
 }
 
+void ThreadManager_joinAll()
+{
+    MachineInterface_waitstop();
+    return;
+}
+
 void ThreadManager_init()
 {
 	//start threads for modules here.
 	MachineInterface_init();
 }
+
+
