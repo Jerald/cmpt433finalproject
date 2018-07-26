@@ -19,22 +19,27 @@
 #include "databaseManager.h"
 
 //need to decide which bus we'll be using
-#define I2C_BUS1 "/dev/i2c-1"
+#define I2C_BUS1 "/dev/i2c-2"
 #define BUTTONS_REG 0x00 //fill in when known
-#define I2C_DEVICE_ADDRESS 0x00 //fill in when known
+#define I2C_DEVICE_ADDRESS 0x20 //fill in when known
 #define NUM_BITS 8
 
 static pthread_t machineInterfaceThreadID;
 static int i2cFileDesc;
 
-static void* mainLoop(void *args);
-static int initI2cBus(char* bus, int address);
-static unsigned char readI2cReg(int i2CFileDesc, unsigned char regAddr);
+//static void* mainLoop(void *args);
+//static int initI2cBus(char* bus, int address);
+//static unsigned char readI2cReg(int i2CFileDesc, unsigned char regAddr);
+
+static int MachineInterface_initI2cBus(char* bus, int address);
+static unsigned char MachineInterface_readI2cReg(int i2CFileDesc, unsigned char regAddr);
+static void* MachineInterface_thread(void *args);
+
 
 void MachineInterface_init(void)
 {
 	MachineInterface_initI2cBus(I2C_BUS1, I2C_DEVICE_ADDRESS);
-    machineInterfaceThreadID = makeThread(&MachineInterface_init, NULL);
+    machineInterfaceThreadID = makeThread(&MachineInterface_thread, NULL);
 }
 
 void MachineInterface_stop(void)
@@ -54,11 +59,15 @@ static void* MachineInterface_thread(void *args)
 		for (int i = 0; i < NUM_BITS; i++) {
 			if (((1 << i) & regVal) == 0) {
 				buttonPushed = i;
+                printf("Button pushed: %d", buttonPushed);
 				//call Database Module and update
 			}
 		}
 	}
+    return NULL;
 }
+
+
 static int MachineInterface_initI2cBus(char* bus, int address)
 {
 	i2cFileDesc = open(bus, O_RDWR);

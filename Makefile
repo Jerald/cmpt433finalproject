@@ -19,7 +19,7 @@ all:
 controller:
 	cd $(CURDIR)/controller_src && $(MAKE)
 
-sorter:
+server:
 	cd $(CURDIR)/webserver_src && $(MAKE)
 
 clean:
