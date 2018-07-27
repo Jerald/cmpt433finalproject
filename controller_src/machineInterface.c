@@ -36,7 +36,7 @@ static int i2cFileDesc;
 //static int initI2cBus(char* bus, int address);
 //static unsigned char readI2cReg(int i2CFileDesc, unsigned char regAddr);
 
-static int MachineInterface_initI2cBus(char* bus, int address);
+//static int MachineInterface_initI2cBus(char* bus, int address);
 static unsigned char MachineInterface_readI2cReg(int i2CFileDesc, unsigned char regAddr);
 static void* MachineInterface_thread(void *args);
 
@@ -82,6 +82,7 @@ static void* MachineInterface_thread(void *args)
 				buttonPushed = i;
                 printf("Button ready: %d\n", buttonPushed);
 				//call Database Module and update
+                dbManager_insertPurchase(buttonPushed);
 			}
 		}
 
@@ -128,7 +129,8 @@ static unsigned char MachineInterface_readI2cReg(int i2CFileDesc, unsigned char 
 	return value;
 #else
     unsigned char retVal = 0xff;
-    for(int i = 0; i < NUM_BITS; i++){
+    int i;
+    for(i = 0; i < NUM_BITS; i++){
         if(rand() % 30 == 0){
             retVal ^= (1 << i);
         }

@@ -1,0 +1,58 @@
+How to set up db so the databaseManager.c will work on your BeagleBone
+(Assumes you have installed and instantiated postgresql on your BeagleBone)
+
+change to be postgres user with:
+
+# su - postgres
+
+
+Create database, user, password:
+
+# createuser admin_433
+
+# createdb vending_machine
+
+change to psql console:
+# postgres psql
+
+set password for admin_433:
+
+psql=# alter user admin_433 with encrypted password 'teambato';
+	
+psql=# grant all privileges on database <dbname> to <username> ;
+
+
+
+
+Troubleshooting
+
+If getting following error when trying to start psql console:
+
+psql: could not connect to server: No such file or directory
+
+Is the server running locally and accepting connections on 
+Unix domain socket "/var/run/postgresql/.s.PGSQL.5432"?
+
+
+
+Check what database cluster currently created/running:
+
+# pg_lsclusters
+
+
+If there is one, but it's not running, then start it (substituting the version and name):
+
+# pg_ctlcluster <x.y> <name> start
+
+(x.y is version number listed in result of pg_lsclusers, for me it was 9.4 main)
+
+If there isn't one, create one and have it started:
+
+# pg_createcluster --start x.y name
+
+If you get error along the lines of 
+"Insecure directory in $ENV{PATH} while running with -T switch at /usr/bin/pg_ctlclust"
+
+change permissions to the directory with
+
+# chmod 755 /usr/bin

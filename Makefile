@@ -5,7 +5,7 @@ export CXX := $(CROSS_TOOL)g++
 export warningFlags = -Wall -Werror
 export debugFlags = -g -Og
 export libFlags = -pthread
-export miscFlags = -std=c99 -D_POSIX_C_SOURCE=200809L
+export miscFlags = -std=c99 -D_POSIX_C_SOURCE=200809L -I/usr/include/postgresql -lpq
 export flags := $(miscFlags) $(libFlags) $(debugFlags) $(warningFlags)
 
 export controllerOutName = controller.out
