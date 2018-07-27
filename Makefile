@@ -2,11 +2,11 @@ export CROSS_TOOL = arm-linux-gnueabihf-
 export CC := $(CROSS_TOOL)gcc
 export CXX := $(CROSS_TOOL)g++
 
-export warningFlags = -Wall -Werror
+# export warningFlags = -Wall -Werror
 export debugFlags = -g -Og
-export libFlags = -pthread
-export miscFlags = -std=c99 -D_POSIX_C_SOURCE=200809L -I/usr/include/postgresql -lpq
-export flags := $(miscFlags) $(libFlags) $(debugFlags) $(warningFlags)
+export libFlags = -pthread -lpq
+export miscFlags = -std=c99 -D_POSIX_C_SOURCE=200809L -DSIMULATION -idirafter/usr/include/
+export flags := $(miscFlags) $(libFlags) $(debugFlags) $(warningFlags) -Wl,--rpath-link=/usr/arm-linux-gnueabihf/lib
 
 export controllerOutName = controller.out
 
@@ -25,4 +25,4 @@ server:
 clean:
 	cd $(CURDIR)/controller_src && $(MAKE) clean
 	cd $(CURDIR)/webserver_src && $(MAKE) clean
-	# rm -f $(outPath)sorter.out $(outPath)/noworky.out
+	rm -f $(outPath)/controller.out
