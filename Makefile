@@ -4,7 +4,7 @@ export CXX := $(CROSS_TOOL)g++
 
 # export warningFlags = -Wall -Werror
 export debugFlags = -g -Og -DSIMULATION
-export libFlags = -pthread -lpq -Wl,--rpath-link=/usr/arm-linux-gnueabihf/lib
+export libFlags = -pthread -lpq -L$(CURDIR)/lib/ -Wl,--rpath-link=/usr/arm-linux-gnueabihf/lib/
 export miscFlags = -std=c99 -D_POSIX_C_SOURCE=200809L -idirafter/usr/include/
 export flags := $(miscFlags) $(libFlags) $(debugFlags) $(warningFlags)
 
