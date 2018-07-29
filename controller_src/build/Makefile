@@ -3,7 +3,8 @@ objs := $(wildcard *.o)
 all: controller
 
 controller:
-	$(CC) $(flags) $(objs) $(libpq) -o $(outPath)/$(controllerOutName)
+	$(CC) $(flags) $(objs) $(libpq) -o $(outPath)/$(controllerOutName)	
+	cp $(outPath)/$(controllerOutName) $(HOME)/cmpt433/public/myApps/cmpt433Proj/
 
 clean:
 	rm -f $(objs)

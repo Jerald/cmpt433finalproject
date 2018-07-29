@@ -23,6 +23,9 @@ controller:
 
 server:
 	cd $(CURDIR)/webserver_src && $(MAKE)
+	
+sequel:
+	cp $(CURDIR)/setup.sql $(HOME)/cmpt433/public/myApps/cmpt433Proj/
 
 clean:
 	cd $(CURDIR)/controller_src && $(MAKE) clean
