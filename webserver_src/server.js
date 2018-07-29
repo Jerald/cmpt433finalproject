@@ -21,10 +21,38 @@ const psqlClient = new Client({
     host: '127.0.0.1',
     database: 'vending_machine'
 });
-
 psqlClient.connect();
 
+function getPopTableUpdate(res)
+{
+    var updateObj = {};
+    var respondedQueries = 0;
 
+    // Iterate through each of the 8 columns and get their count data
+    for (var i = 1; i <= 8; i++)
+    {
+        psqlClient.query(`SELECT count FROM drinks WHERE col_num = ${i};`, function (err, response)
+        {
+            if (err)
+            {
+                console.log(`Error in database query for button ${i}\nError is: ${err}`);
+                res.end(500);
+                return;
+            }
+
+            console.log(`Query for button ${i} has response: ${response}`);
+            updateObj[`button${i}`].count = response;
+            respondedQueries += 1;
+
+            // When all 8 queries have been responded, send the data
+            if (respondedQueries == 8)
+            {
+                console.log("Sending pop table update");
+                res.json(updateObj);
+            }
+        });
+    }
+}
 // Helper functions
 
 function fileGetFunc(fileName, contentType)
@@ -39,7 +67,12 @@ function getGraph(res)
 
     plotly.plot(data, layout, function (err, msg)
     {
-        if (err) return console.log(err);
+        if (err)
+        {
+            console.log(`Plotly plot error: ${err}`);
+            res.end(500);
+            return;
+        }    
 
         var url = msg.url;
         var start = url.indexOf('//');
@@ -68,6 +101,11 @@ server.post("/getGraph", function (req, res)
     // We had a bunch of stupid shit to get this to work right,
     // And then I remembered this works...
     getGraph(res);
+});
+
+server.post("/getPopTableUpdate", function (req, res)
+{
+    getPopTableUpdate(res);
 });
 
 server.listen(SERVER_PORT, function ()
