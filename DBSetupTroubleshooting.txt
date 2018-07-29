@@ -8,19 +8,24 @@ change to be postgres user with:
 
 Create database, user, password:
 
-# createuser admin_433
+$ createuser admin_433
 
-# createdb vending_machine
+$ createdb vending_machine
 
 change to psql console:
-# postgres psql
+$ psql
 
 set password for admin_433:
 
 psql=# alter user admin_433 with encrypted password 'teambato';
 	
-psql=# grant all privileges on database <dbname> to <username> ;
+psql=# grant all privileges on database <dbname> to <username>;
 
+
+Now do the following
+postgres@<yourid>-beagle: psql -U admin_433 -d vending_machine -a -f "<absolute path to setup.sql script>"
+or (following assumes setup.sql is copied to your NFS share folder)
+psql -U admin_433 -h 127.0.0.1 -d vending_machine -a -f "/mnt/remote/setup.sql"
 
 
 
@@ -54,5 +59,12 @@ If you get error along the lines of
 "Insecure directory in $ENV{PATH} while running with -T switch at /usr/bin/pg_ctlclust"
 
 change permissions to the directory with
+
+If you get an error
+	then you need to free up space on the target run:
+	#sudo apt-get remove --purge x11-common
+	#sudo apt-get autoremove
+
+
 
 # chmod 755 /usr/bin
