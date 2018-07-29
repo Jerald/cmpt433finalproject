@@ -59,12 +59,16 @@ If you get error along the lines of
 "Insecure directory in $ENV{PATH} while running with -T switch at /usr/bin/pg_ctlclust"
 
 change permissions to the directory with
+# chmod 755 /usr/bin
 
-If you get an error
-	then you need to free up space on the target run:
+
+If you get an error then you need to free up space on the target run:
 	#sudo apt-get remove --purge x11-common
 	#sudo apt-get autoremove
 
-
-
-# chmod 755 /usr/bin
+If there are authentication issues when running node 
+modify # /etc/postgresql/9.4/main/pg_hba.conf
+local all postgres peer 
+Should be 
+local all postgres md5
+(may need to change other lines to md5)
