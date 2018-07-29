@@ -5,6 +5,7 @@
   "dependencies": {
     "db-migrate-pg": "^0.4.0",
     "express": "^4.16.3",
+    "pg": "^7.4.3",
     "plotly": "^1.0.6",
     "socket.io": "^2.1.1"
   }
