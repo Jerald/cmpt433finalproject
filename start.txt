@@ -1,7 +1,7 @@
 To build run(will copy to public/myApps/cmpt433proj):
 
 $make controller
-$make server
+$make server     (assumes webserver_src located at $(HOME)/cmpt433/work/cmpt433finalproject/webserver_src)
 $make sequel
 
 On the Target
