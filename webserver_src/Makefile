@@ -1,8 +1,8 @@
 all: copy
 
 copy: 
-	mkdir -p $(HOME)/cmpt433/public/myApps/cmpt433Proj
-	cp -r $(HOME)/cmpt433/work/cmpt433finalproject/webserver_src $(HOME)/cmpt433/public/myApps/cmpt433Proj
+	mkdir $(outPath)/$(webserverOutFolder)
+	cp -r $(CURDIR) $(outPath)/$(webserverOutFolder)
 
 clean:
-	rm -rf $(HOME)/cmpt433/public/myApps/cmpt433Proj/webserver_src_copy
+	rm -rf $(outPath)/$(webserverOutFolder)

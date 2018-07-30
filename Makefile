@@ -14,6 +14,7 @@ export libpq := $(CURDIR)/buildreqs/libpq.so
 # Symlink the below folder to be where you want the actual output to be
 export outPath := $(CURDIR)/outFolder
 export controllerOutName = controller.out
+export webserverOutFolder = webserver
 
 all:
 	echo "No 'all' target!"
@@ -25,9 +26,8 @@ server:
 	cd $(CURDIR)/webserver_src && $(MAKE)
 	
 sequel:
-	cp $(CURDIR)/setup.sql $(HOME)/cmpt433/public/myApps/cmpt433Proj/
+	cp $(CURDIR)/setup.sql $(outPath)/
 
 clean:
 	cd $(CURDIR)/controller_src && $(MAKE) clean
 	cd $(CURDIR)/webserver_src && $(MAKE) clean
-	rm -f $(outPath)/controller.out
