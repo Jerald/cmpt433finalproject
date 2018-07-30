@@ -12,16 +12,16 @@ function init()
         url: "/getGraph",
         dataType: "json",
         method: "POST",
-        timeout: 5000,
+        timeout: 50000,
         success: graphAjaxSuccess,
         error: (xhr, status, errorThrown) => console.log(`Graph get error\nStatus: ${status}\nError thrown: ${errorThrown}`)
     });
 
     // Set the pop table to be updated every UPDATE_RATE number of ms
-    //popUpdateInterval = setInterval(popUpdateGet, UPDATE_RATE);
+   	popUpdateInterval = setInterval(popUpdateGet, UPDATE_RATE);
 
     // Then call it once to get us started
-    //popUpdateGet();
+	popUpdateGet();
 }
 
 function graphAjaxSuccess(data)

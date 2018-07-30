@@ -39,7 +39,7 @@ function makeButtonGraphs(res)
 	
 	//var date = "2018-07-29"; //temporary
 	//if no work, change second DD to ZZ and replace YYYY-MM-ZZ with Date + 1
-	var defQuery = "SELECT col_num, EXTRACT(HOUR FROM purchase_date) AS HOUR_START, count(EXTRACT(HOUR FROM purchase_date)) FROM purchases WHERE purchase_date BETWEEN '2018-07-29 00:00:00' AND '2018-07-30 00:00:00' group by HOUR_START, col_num order by col_num, HOUR_START asc";
+	var defQuery = "SELECT col_num, EXTRACT(HOUR FROM purchase_date) AS HOUR_START, count(EXTRACT(HOUR FROM purchase_date)) FROM purchases WHERE purchase_date BETWEEN '2018-07-30 00:00:00' AND '2018-07-31 00:00:00' group by HOUR_START, col_num order by col_num, HOUR_START asc";
 	//var newquery = defQuery.replace("YYYY-MM-DD", date);
 	
 	//console.log(newquery);
@@ -131,7 +131,7 @@ function makeButtonGraphs(res)
                 if (err)
                 {
                     console.log(`Plotly plot error: ${err}`);
-                    res.end(500);
+                    res.end();
                     return;
                 }    
 
@@ -169,16 +169,16 @@ function plotGraph(data, )
 function getPopTableUpdate(res)
 {
 	
-	/*
+
     var updateObj = {
-        button1: {},
-        button2: {},
-        button3: {},
-        button4: {},
-        button5: {},
-        button6: {},
-        button7: {},
-        button8: {}
+        button1: { count: 0},
+        button2: { count: 0},
+        button3: { count: 0},
+        button4: { count: 0},
+        button5: { count: 0},
+        button6: { count: 0},
+        button7: { count: 0},
+        button8: { count: 0}
     };
     
     var respondedQueries = 0;
@@ -186,19 +186,21 @@ function getPopTableUpdate(res)
     // Iterate through each of the 8 columns and get their count data
     for (var i = 1; i <= 8; i++)
     {
-        updateObj[`button${i}`] = { count: undefined };
-     
-        psqlClient.query(`SELECT count FROM drinks WHERE col_num = ${i-1};`, function (err, response)
+	console.log("I value: " + i);
+	var index = i;
+        ((index) => psqlClient.query(`SELECT count FROM drinks WHERE col_num = ${i-1};`, function (err, response)
         {
+	    console.log("Index in callback: " + index);
             if (err)
             {
-                console.log(`Error in database query for button ${i}\nError is: ${err}`);
-                res.end(500);
+                console.log(`Error in database query for button ${index}\nError is: ${err}`);
+                res.end();
                 return;
             }
 
-            console.log(`Query for button ${i} has response: ${response}`);
-            updateObj[`button${i}`].count = response;
+            console.log(`Query for button ${index} has response: ${JSON.stringify(response)}`);
+	    console.log(updateObj);
+            updateObj[`button${index}`].count = response.rows[0].count;
             respondedQueries += 1;
 
             // When all 8 queries have been responded, send the data
@@ -206,10 +208,10 @@ function getPopTableUpdate(res)
             {
                 console.log("Sending pop table update");
                 res.json(updateObj);
+		res.end()
             }
-        });
+        }))(index);
     }
-    */
 }
 
 // Helper functions
