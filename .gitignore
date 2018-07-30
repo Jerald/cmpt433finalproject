@@ -37,3 +37,6 @@
 
 #node_modules
 node_modules/
+
+#ignore makefiles because we have different setups
+**/Makefile
