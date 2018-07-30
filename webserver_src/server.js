@@ -32,7 +32,7 @@ function getPopTableUpdate(res)
     // Iterate through each of the 8 columns and get their count data
     for (var i = 1; i <= 8; i++)
     {
-        updateObj[`button${i}`] = {};
+        updateObj[`button${i}`] = { count: undefined };
      
         psqlClient.query(`SELECT count FROM drinks WHERE col_num = ${i-1};`, function (err, response)
         {
