@@ -26,7 +26,17 @@ psqlClient.connect();
 
 function getPopTableUpdate(res)
 {
-    var updateObj = {};
+    var updateObj = {
+        button1: {},
+        button2: {},
+        button3: {},
+        button4: {},
+        button5: {},
+        button6: {},
+        button7: {},
+        button8: {}
+    };
+    
     var respondedQueries = 0;
 
     // Iterate through each of the 8 columns and get their count data
