@@ -24,8 +24,152 @@ const psqlClient = new Client({
 });
 psqlClient.connect();
 
+
+function makeButtonGraphs(res)
+{
+	var hour_starts = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,29,20,21,22,23];
+	var button1 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+	var button2 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+	var button3 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+	var button4 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+	var button5 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+	var button6 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+	var button7 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+	var button8 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+	
+	//var date = "2018-07-29"; //temporary
+	//if no work, change second DD to ZZ and replace YYYY-MM-ZZ with Date + 1
+	var defQuery = "SELECT col_num, EXTRACT(HOUR FROM purchase_date) AS HOUR_START, count(EXTRACT(HOUR FROM purchase_date)) FROM purchases WHERE purchase_date BETWEEN '2018-07-29 00:00:00' AND '2018-07-30 00:00:00' group by HOUR_START, col_num order by col_num, HOUR_START asc";
+	//var newquery = defQuery.replace("YYYY-MM-DD", date);
+	
+	//console.log(newquery);
+	console.log(defQuery);
+	psqlClient.query(defQuery, function (err, response)
+	{
+		//console.log(newquery);
+        if (err)
+        {
+            console.log(`Error in database query for buttons\nError is: ${err}`);
+            res.end(500);
+            return;
+        }
+        var dbrow = 0; 
+    
+        for(var i = 0; i <= 7; i++) //each col_n
+        {
+        	for(var j = 0; i <= 23; i++)//24 hours
+        	{
+        		//check if db row exists or else break
+        			
+        		/*
+        		if (response.rows === undefined || response.rows.length == 0) 
+        		{
+        			console.log("NO DATA")
+        		}
+        		*/
+        		    // array empty or does not exist
+        		
+        		
+        		if(response.rows[dbrow].col_num != i)//on to next column
+        		{
+        			break;
+        		}
+        		else if(response.rows[dbrow].hour_start != j) //on to next hour
+        		{
+        			continue;
+        		}
+        		else
+        		{
+        			//`button${i}[${j}]` = response.row[dbrow].count; 
+        			if(i == 0)
+        			{
+        				button1[j] = response.rows[dbrow].count;  
+        			}
+        			else if(i ==1)
+        			{
+        				button2[j] = response.rows[dbrow].count; 
+        			}
+        			else if(i ==2)
+        			{
+        				button3[j] = response.rows[dbrow].count; 
+        			}
+        			else if(i ==3)
+        			{
+        				button4[j] = response.rows[dbrow].count; 
+        			}
+        			else if(i ==4)
+        			{
+        				button5[j] = response.rows[dbrow].count; 
+        			}
+        			else if(i ==5)
+        			{
+        				button6[j] = response.rows[dbrow].count; 
+        			}
+        			else if(i ==6)
+        			{
+        				button7[j] = response.rows[dbrow].count; 
+        			}
+        			else if(i ==7)
+        			{
+        				button8[j] = response.rows[dbrow].count; 
+        			}
+        			dbrow++;
+        		}
+        	}	
+        }
+    
+        var graphNumber = 0;
+        var srcs = [];
+        
+        for(var i = 1; i<=8; i++)
+        {
+        	var graphData = [{x:hour_starts, y:`button${i}`, type: 'bar'}];
+        	var layout = {fileopt : "overwrite", filename : "Popgraph${i}"};
+
+            plotly.plot(graphData, layout, function (err, msg)
+            {
+                if (err)
+                {
+                    console.log(`Plotly plot error: ${err}`);
+                    res.end(500);
+                    return;
+                }    
+
+                var url = msg.url;
+                var start = url.indexOf('//');
+                var suburl = url.slice(start);	
+                var newsrc = suburl.concat(".embed");        
+                graphNumber++;
+                plotUrl = newsrc;
+                srcs.push(newsrc);
+                //console.log(srcs);
+              
+                console.log(`Sending plot with url: ${plotUrl}`);
+                if(graphNumber == 8)
+                {
+                	//console.log(srcs);
+                	res.json({src: srcs});
+                	res.end();
+            	}
+            });
+        }
+        //while(graphNumber != 8){}
+        //res.json({src: srcs});
+    });
+}
+
+/*
+function plotGraph(data, )
+{
+	
+}
+*/
+
+
 function getPopTableUpdate(res)
 {
+	
+	/*
     var updateObj = {
         button1: {},
         button2: {},
@@ -65,6 +209,7 @@ function getPopTableUpdate(res)
             }
         });
     }
+    */
 }
 
 // Helper functions
@@ -76,6 +221,7 @@ function fileGetFunc(fileName, contentType)
 
 function getGraph(res)
 {
+	/*
     var data = [{x:[0,1,2], y:[3,2,1], type: 'bar'}];
     var layout = {fileopt : "overwrite", filename : "simple-node-example"};
 
@@ -97,6 +243,15 @@ function getGraph(res)
         console.log(`Sending plot with url: ${plotUrl}`);
         res.json({src: plotUrl});
     });
+    */
+	
+	
+	
+	
+	
+	
+	
+	
 }
 
 // Server routing functions
@@ -114,7 +269,9 @@ server.post("/getGraph", function (req, res)
 {
     // We had a bunch of stupid shit to get this to work right,
     // And then I remembered this works...
-    getGraph(res);
+    //getGraph(res);
+	makeButtonGraphs(res);
+	
 });
 
 server.post("/getPopTableUpdate", function (req, res)

@@ -18,17 +18,45 @@ function init()
     });
 
     // Set the pop table to be updated every UPDATE_RATE number of ms
-    popUpdateInterval = setInterval(popUpdateGet, UPDATE_RATE);
+    //popUpdateInterval = setInterval(popUpdateGet, UPDATE_RATE);
 
     // Then call it once to get us started
-    popUpdateGet();
+    //popUpdateGet();
 }
 
 function graphAjaxSuccess(data)
 {
     // Set the new graph url in the iframe and make it visible
-    $("#graph").attr("src", data.src);
+    
+	/*
+	$("#graph").attr("src", data.src);
     $("#graph").attr("hidden", false);
+    */
+    
+	$("#graph1").attr("src", data.src[0]);
+	$("#graph1").attr("hidden", false);
+	
+	$("#graph2").attr("src", data.src[1]);
+	$("#graph2").attr("hidden", false);
+	
+	$("#graph3").attr("src", data.src[2]);
+	$("#graph3").attr("hidden", false);
+	
+	$("#graph4").attr("src", data.src[3]);
+	$("#graph4").attr("hidden", false);
+	
+	$("#graph5").attr("src", data.src[4]);
+	$("#graph5").attr("hidden", false);
+	
+	$("#graph6").attr("src", data.src[5]);
+	$("#graph6").attr("hidden", false);
+	
+	$("#graph7").attr("src", data.src[6]);
+	$("#graph7").attr("hidden", false);
+	
+	$("#graph8").attr("src", data.src[7]);
+	$("#graph8").attr("hidden", false);
+    
 }
 
 function popUpdateGet()
