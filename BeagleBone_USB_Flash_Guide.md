@@ -36,7 +36,7 @@ This project is a fork of a Google Summer of Code project from 2013. The origina
     ```
     Now you need to compile an executable called `usb_flasher` which is used to boot your BeagleBone and expose it to your host. This requires two dependencies, `automake` and `libusb`. If you're on a distro other than ubuntu, use your favourite package manager to get them. Otherwise, if you are on ubuntu run the following command:
     ```sh
-    $ sudo apt install automake libusb
+    $ sudo apt install automake libusb-1.0-0
     ```
 
 ---
@@ -94,3 +94,8 @@ Now that everything is setup within the repo, you need to actually download an i
     The script will guide you through the remaining steps. If you have any issues, check the troubleshooting section.
 
 
+# Troubleshooting
+
+If your board didn't show up as mounted when the script asks, abort the script and try again from the beginning. If it still doesn't show up, go through the entire process regardless. After it's done try to boot. If it doesn't boot, try the flashing process again and it should mount correctly. If not, try flashing again. 
+
+General rule if things don't mount correctly or otherwise boot: 
