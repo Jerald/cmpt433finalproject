@@ -12,14 +12,14 @@ Similar to the official guides, this guide will use the following convention for
 
 # 1. Preparing the flashing system
 
-## Intro
+### Intro
 This process is powered at its core by a project on github. You can check out the repo [here](https://github.com/Jerald/beaglebone_usb_flash).
 
 This project is a fork of a Google Summer of Code project from 2013. The original repo is [here](https://github.com/ungureanuvladvictor/BBBlfs). Since it was made, there have been some changes in aspects of the BeagleBone setup so a number of modifications were required to ensure it worked.
 
 ---
 
-## Steps
+### Steps
 
 1. First you need to clone the project repo. Navigate to wherever you'd like it cloned to then run the following commands.
     ```sh
@@ -53,12 +53,12 @@ This project is a fork of a Google Summer of Code project from 2013. The origina
 
 # 2. Preparing the BeagleBone
 
-## Intro 
+### Intro 
 Now that everything is setup within the repo, you need to actually download an image to flash onto the BeagleBone. If you'd like, you can view the latest images [here](http://beagleboard.org/latest-images) on the BeagleBone website and pick your own. If not, there are steps to download a preset one below.
 
 ---
 
-## Steps
+### Steps
 
 1. Firstly, navigate to the `bin/` directory within the repo. This is where the executable was compiled to and where the code we'll be running is. Assuming you're within the repo to start with, change it with:
     ```sh
