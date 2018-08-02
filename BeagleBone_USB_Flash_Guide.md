@@ -1,6 +1,6 @@
 # USB Flashing Guide for BeagleBones
-### Written for CMPT433 in Summer 2018 at SFU
-##### By: Oscar
+>#### Written for CMPT433 in Summer 2018 at SFU
+>##### By: Oscar
 ---
 
 #### Formatting: 
@@ -16,7 +16,7 @@ Similar to the official guides, this guide will use the following convention for
 #### Intro
 This process is powered at its core by a project on github. You can check out the repo [here](https://github.com/Jerald/beaglebone_usb_flash).
 
-This project is a fork of a Google Summer of Code project from 2013. The original repo is [here](https://github.com/ungureanuvladvictor/BBBlfs). Since it was made, there have been some changes in aspects of the BeagleBone setup so a number of changes were requires to ensure it worked.
+This project is a fork of a Google Summer of Code project from 2013. The original repo is [here](https://github.com/ungureanuvladvictor/BBBlfs). Since it was made, there have been some changes in aspects of the BeagleBone setup so a number of modifications were required to ensure it worked.
 
 #### Steps
 
@@ -35,7 +35,7 @@ This project is a fork of a Google Summer of Code project from 2013. The origina
     ```sh
     $ sudo apt install automake libusb
     ```
-    Now that you have the build dependencies, you need to actually make the executable. Run the following commands to do that:
+3. With the build dependencies ready, now you need to actually make the executable. Run the following commands to do that:
     ```sh
     $ ./autogen.sh
     $ ./configure
@@ -46,7 +46,7 @@ This project is a fork of a Google Summer of Code project from 2013. The origina
 # 2. Preparing the BeagleBone
 
 ### Intro 
-Now that everything is setup within the repo, you need to actually download an image to flash onto the BeagleBone. If you'd like, you can view the latest images [here](http://beagleboard.org/latest-images) on the BeagleBone website and pick your own. But there's steps to download it easily if you don't care to peruse.
+Now that everything is setup within the repo, you need to actually download an image to flash onto the BeagleBone. If you'd like, you can view the latest images [here](http://beagleboard.org/latest-images) on the BeagleBone website and pick your own. If not, there are steps to download a preset one below.
 
 ### Steps
 
@@ -61,7 +61,7 @@ Now that everything is setup within the repo, you need to actually download an i
     ```sh
     $ wget -O ./image.img.xz http://debian.beagleboard.org/images/bone-debian-9.4-iot-armhf-2018-06-17-4gb.img.xz
     ```
-    If you chose a different image to use off of the website, you can change the url in the command or just download it normally and change the path you use with the flashing script.
+    If you chose a different image to use off of the website, you can change the url in the command or just download it normally and change the path when you run the flashing script.
 
 3. At this point we have the flashing system ready and an image to flash downloaded. Now all that's left is to actually do it!
 
@@ -74,7 +74,7 @@ Now that everything is setup within the repo, you need to actually download an i
     $ sudo ./flash_script.sh ./image.img.xz
     ```
     If you downloaded your image to somewhere else, change the path to it. The name can be whatever it wants, but the extension should be `.img.xz`.
-    
+
     The script will guide you through the remaining steps. If you have any issues, check the troubleshooting section.
 
 
