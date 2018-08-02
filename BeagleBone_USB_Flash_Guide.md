@@ -1,7 +1,6 @@
 # USB Flashing Guide for BeagleBones
 >#### Written for CMPT433 in Summer 2018 at SFU
 >##### By: Oscar
----
 
 #### Formatting: 
 Similar to the official guides, this guide will use the following convention for where you should run commands:
@@ -26,7 +25,9 @@ This project is a fork of a Google Summer of Code project from 2013. The origina
     $ git clone https://github.com/Jerald/beaglebone_usb_flash.git ./beaglebone_usb_flasher
     ```
     This will make a new folder for the repo then clone it into there from github. 
-    
+
+---
+
 2. Change into the folder you've made for the project with the following:
     ```sh
     $ cd beaglebone_usb_flasher
@@ -35,6 +36,9 @@ This project is a fork of a Google Summer of Code project from 2013. The origina
     ```sh
     $ sudo apt install automake libusb
     ```
+
+---
+
 3. With the build dependencies ready, now you need to actually make the executable. Run the following commands to do that:
     ```sh
     $ ./autogen.sh
@@ -42,6 +46,8 @@ This project is a fork of a Google Summer of Code project from 2013. The origina
     $ make
     ```
     Now the flashing system is all ready to begin! Next step: actually having something to flash.
+
+---
 
 # 2. Preparing the BeagleBone
 
@@ -55,6 +61,8 @@ Now that everything is setup within the repo, you need to actually download an i
     $ cd ./bin
     ```
 
+---
+
 2. For ease, you can use the below commands which download the latest image as of the release of this guide. I may update this link every once in awhile with the newest image.
 
     Download the image with:
@@ -63,11 +71,15 @@ Now that everything is setup within the repo, you need to actually download an i
     ```
     If you chose a different image to use off of the website, you can change the url in the command or just download it normally and change the path when you run the flashing script.
 
+---
+
 3. At this point we have the flashing system ready and an image to flash downloaded. Now all that's left is to actually do it!
 
     For your BeagleBone to be flashed it needs to be put into USB boot mode. This is achieved by holding whats called the S2 button while plugging in the board. That's the small button on the **opposite** side of the board as the ethernet port. It's next to the weird beige connecters if you have a BeagleBone Green.
 
     **Be sure you put the board into USB boot mode.** You'll know you did it right if the single power light next to the ethernet is on, but the row of 4 isn't flashing at all.
+
+---
 
 4. Now that you've put the BeagleBone into USB boot mode, we're ready to use the flashing system. Staying within the `bin/` folder, you need to run the following command:
     ```sh
