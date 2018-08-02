@@ -4,8 +4,8 @@
 <body>
 
 <h1 align="center"> POP STATS </h1>
-<label>Counting Since </label>
-<text id="asofdate"></text>
+<label>Counting Since:</label>
+<input id="datetimepicker" type="datetime-local"></input>
 <table class="table table-hover">
   <thead class="thead-dark">
     <tr>
@@ -66,10 +66,10 @@
     </tr>
   </tbody>
 </table>
-<button id="reset" class="btn btn-primary">Reset Purchases and Date</button>
+<!-- <button id="reset" class="btn btn-primary">Reset Purchases and Date</button>-->
 
 <h2 align="center"> GRAPHING </h2>
-<label>Select Date to Graph:</label>
+<label>Graph for:</label>
 <input id="datepicker" type="date"></input>
 <div id="graph"></div>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>

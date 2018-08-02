@@ -22,19 +22,12 @@ Date.prototype.toDateInputValue = (function() {
     return local.toJSON().slice(0,10);
 });
 
-
-$('#reset').click(function(){
-	//remove db tables and remake
-	
-	$('#asofdate').text(new Date().toDateInputValue());
-	
-});
-
 $('#datepicker').change(function(){
 	$.ajax({
         url: "/getGraph",
         dataType: "json",
-        data: JSON.stringify({date: $('datepicker').val}),
+       // data: JSON.stringify({date: $('#datepicker').val()}),
+        data: {date: $('#datepicker').val()},
         method: "POST",
         timeout: 50000,
         success: updateGraphAjaxSuccess,
@@ -44,13 +37,22 @@ $('#datepicker').change(function(){
 
 function init()
 {
-	$('#datePicker').val(new Date().toDateInputValue()); //WHY NO SET?
+	$('#datepicker').val(new Date().toDateInputValue());
 	
-	//TODO query for asofdate (order by timestamp descending and pick first row)
+	//get request to get earliest time and set datetimepicker to it
+	
+	console.log("datepicker value" +  $('#datepicker').val());
+	console.log("datetimepicker value" +  $('#datepicker').val());
+	
+	//TODO query for datetimepicker (order by timestamp descending and pick first row)
 	
     $.ajax({
         url: "/getGraph",
         dataType: "json",
+        contentType: 'application/json',
+        //data: "123",
+        data: JSON.stringify({date: $('#datepicker').val()}), //
+        //data: {date: $('#datepicker').val()},
         method: "POST",
         timeout: 50000,
         success: createGraphAjaxSuccess,

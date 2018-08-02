@@ -13,7 +13,6 @@ const server = express();
 const API_KEY = "6Zn0UN6Uzcwdes3BuiOu";
 const PLOTLY_USERNAME = "Jeraldson";
 var plotly = require('plotly')(PLOTLY_USERNAME, API_KEY);
-var plotUrl = "";
 
 // PostgreSQL database stuff
 const psqlClient = new Client({
@@ -27,7 +26,6 @@ psqlClient.connect();
 
 function getGraphDataPoints(res)
 {	
-	console.log(res);
 	var button1 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 	var button2 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 	var button3 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
@@ -197,8 +195,12 @@ server.get("/", function (req, res)
 
 server.post("/getGraph", function (req, res)
 {
-	console.log("req" + req);
-	console.log("res" + res);
+	console.log("req: " + req);
+	console.log("res: " + res);
+	console.log("data: " + req.data);
+	console.log("data: " + res.data);
+	//console.log("datadate: " + req.data[0]);
+	//console.log("datadate: " + res.data[0]);
 	getGraphDataPoints(res);
 	
 });
