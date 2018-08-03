@@ -34,9 +34,9 @@ This project is a fork of a Google Summer of Code project from 2013. The origina
     ```sh
     $ cd beaglebone_usb_flasher
     ```
-    Now you need to compile an executable called `usb_flasher` which is used to boot your BeagleBone and expose it to your host. This requires two dependencies, `automake` and `libusb`. If you're on a distro other than ubuntu, use your favourite package manager to get them. Otherwise, if you are on ubuntu run the following command:
+    Now you need to compile an executable called `usb_flasher` which is used to boot your BeagleBone and expose it to your host. This requires two dependencies, `automake` and `libusb-dev`. If you're on a distro other than ubuntu, use your favourite package manager to get them. Otherwise, if you are on ubuntu run the following command:
     ```sh
-    $ sudo apt install automake libusb-1.0-0
+    $ sudo apt install automake libusb-1.0-0-dev
     ```
 
 ---
@@ -60,7 +60,7 @@ Now that everything is setup within the repo, you need to actually download an i
 
 ### Steps
 
-1. Firstly, navigate to the `bin/` directory within the repo. This is where the executable was compiled to and where the code we'll be running is. Assuming you're within the repo to start with, change it with:
+1. Firstly, navigate to the `bin/` directory within the repo. This is where the executable was compiled to and where the script we'll be using is located. Assuming you're within the repo to start with, change it with:
     ```sh
     $ cd ./bin
     ```
@@ -79,7 +79,7 @@ Now that everything is setup within the repo, you need to actually download an i
 
 3. At this point we have the flashing system ready and an image to flash downloaded. Now all that's left is to actually do it!
 
-    For your BeagleBone to be flashed it needs to be put into USB boot mode. This is achieved by holding whats called the S2 button while plugging in the board. That's the small button on the **opposite** side of the board as the ethernet port. It's next to the weird beige connecters if you have a BeagleBone Green.
+    For your BeagleBone to be flashed it needs to be put into USB boot mode. This is achieved by holding whats called the S2 button while plugging in the board. That's the small button on the **opposite** side of the board from the ethernet port. It's next to the weird beige connecters if you have a BeagleBone Green.
 
     **Be sure you put the board into USB boot mode.** You'll know you did it right if the single power light next to the ethernet is on, but the row of 4 isn't flashing at all.
 
@@ -96,6 +96,20 @@ Now that everything is setup within the repo, you need to actually download an i
 
 # Troubleshooting
 
-If your board didn't show up as mounted when the script asks, abort the script and try again from the beginning. If it still doesn't show up, go through the entire process regardless. After it's done try to boot. If it doesn't boot, try the flashing process again and it should mount correctly. If not, try flashing again. 
+#### Mounting
 
-General rule if things don't mount correctly or otherwise boot: 
+If your board didn't show up as mounted when the script asks, abort the script and try again from the beginning. If it still doesn't show up, go through the entire process regardless. After it's done try to boot. If it still doesn't work, try flashing again. 
+
+General rule if things don't mount correctly or otherwise boot: flash it again.
+
+#### Flashing in a VM
+
+To have the flashing system connect correctly, you'll need to add rules to pass 2 USB devices to your VM. How you do that differs based on your VM program and it's up to you to find the specific method.
+
+Firstly, when the BeagleBone is in USB boot mode you'll see a device with "AM335x" in the same as well as "TI" or "Texas Instruments". This device is what's exposed to your computer by the board being in USB boot mode. Pass it through to your VM.
+
+After that's added, run the script and start the process of putting it in flashing mode. This is what happens after the script asks if the board is in USB boot mode. You'll then be able to see a new device with a name containing "RNDIS" and "Ethernet gadget". Now pass it to your VM as well.
+
+Once these have been passed, your board can be put into the flashing state. At this point another new USB device will be added to your computer. It may be passed to the VM via a previous rule or it may not be. If it's not, look for a device that wasn't there beftiore, as the name is dependent on your computer. This last device is the actual filesystem of your BeagleBone exposed to the computer.
+
+Once this has been added, restart the entire process and everything should work correctly.
