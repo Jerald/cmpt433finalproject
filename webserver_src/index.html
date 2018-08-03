@@ -66,11 +66,17 @@
     </tr>
   </tbody>
 </table>
-<!-- <button id="reset" class="btn btn-primary">Reset Purchases and Date</button>-->
 
 <h2 align="center"> GRAPHING </h2>
-<label>Graph for:</label>
+<label>Graph Date:</label>
 <input id="datepicker" type="date"></input>
+<label>Graph Type:</label>
+<select id="graphtype">
+  <option value="scatter">Scatter</option>
+  <option value="bar">Bar</option>
+  <option value="histogram">Histogram</option>
+  <!-- <option value="audi">Audi</option>-->
+</select>
 <div id="graph"></div>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script src="/script.js" type="text/javascript"></script>

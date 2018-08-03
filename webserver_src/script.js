@@ -1,5 +1,5 @@
 "use strict";
-
+///https://plot.ly/javascript/plotlyjs-function-reference/
 $(document).ready(init);
 
 // How often it asks for an update from the database, in ms
@@ -34,22 +34,34 @@ $('#datepicker').change(function(){
     });
 });
 
+$('#graphtype').change(function(){
+	$.ajax({
+        url: "/getGraph",
+        dataType: "json",
+        data: {"date": $('#datepicker').val()},
+        method: "POST",
+        timeout: 50000,
+        success: createGraphAjaxSuccess,
+        error: (xhr, status, errorThrown) => console.log(`Graph get error\nStatus: ${status}\nError thrown: ${errorThrown}`)
+    });
+});
+
 function init()
 {
-	$('#datepicker').val(new Date().toDateInputValue());
+	//$('#datepicker').val(new Date().toDateInputValue());
 	
 	//get request to get earliest time and set datetimepicker to it
 	
-	console.log("datepicker value: " +  $('#datepicker').val());
-	console.log("datetimepicker value: " +  $('#datepicker').val());
+	//console.log("datepicker value: " +  $('#datepicker').val());
+	//console.log("datetimepicker value: " +  $('#datepicker').val());
 	
 	//TODO query for datetimepicker (order by timestamp descending and pick first row)
-	var test = $('#datepicker').val();
-	console.log("TEST: " + test);
+	//var test =
+	//console.log("TEST: " + test);
     $.ajax({
         url: "/getGraph",
         dataType: "json",
-        data: {"date": test},
+        data: {"date":  $('#datepicker').val()},
         method: "POST",
         timeout: 50000,
         success: createGraphAjaxSuccess,
@@ -65,7 +77,7 @@ function init()
 
 function initGraph(data)
 {
-	var graphType = "scatter";
+	var graphType = $("#graphtype").val();
 	var trace1 = {x: HOUR_STARTS, y: data[0], type: graphType, name: bname1};
 	var trace2 = {x: HOUR_STARTS, y: data[1], type: graphType, name: bname2};
 	var trace3 = {x: HOUR_STARTS, y: data[2], type: graphType, name: bname3};

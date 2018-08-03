@@ -15,9 +15,9 @@ var bodyParser = require('body-parser');
 server.use(bodyParser.json()); // for parsing application/json
 server.use(bodyParser.urlencoded({ extended: true }));
 
-const API_KEY = "6Zn0UN6Uzcwdes3BuiOu";
-const PLOTLY_USERNAME = "Jeraldson";
-var plotly = require('plotly')(PLOTLY_USERNAME, API_KEY);
+//const API_KEY = "6Zn0UN6Uzcwdes3BuiOu";
+//const PLOTLY_USERNAME = "Jeraldson";
+//var plotly = require('plotly')(PLOTLY_USERNAME, API_KEY);
 
 // PostgreSQL database stuff
 const psqlClient = new Client({
