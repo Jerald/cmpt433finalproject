@@ -26,11 +26,10 @@ $('#datepicker').change(function(){
 	$.ajax({
         url: "/getGraph",
         dataType: "json",
-       // data: JSON.stringify({date: $('#datepicker').val()}),
-        data: {date: $('#datepicker').val()},
+        data: {"date": $('#datepicker').val()},
         method: "POST",
         timeout: 50000,
-        success: updateGraphAjaxSuccess,
+        success: createGraphAjaxSuccess,
         error: (xhr, status, errorThrown) => console.log(`Graph get error\nStatus: ${status}\nError thrown: ${errorThrown}`)
     });
 });
@@ -41,18 +40,16 @@ function init()
 	
 	//get request to get earliest time and set datetimepicker to it
 	
-	console.log("datepicker value" +  $('#datepicker').val());
-	console.log("datetimepicker value" +  $('#datepicker').val());
+	console.log("datepicker value: " +  $('#datepicker').val());
+	console.log("datetimepicker value: " +  $('#datepicker').val());
 	
 	//TODO query for datetimepicker (order by timestamp descending and pick first row)
-	
+	var test = $('#datepicker').val();
+	console.log("TEST: " + test);
     $.ajax({
         url: "/getGraph",
         dataType: "json",
-        contentType: 'application/json',
-        //data: "123",
-        data: JSON.stringify({date: $('#datepicker').val()}), //
-        //data: {date: $('#datepicker').val()},
+        data: {"date": test},
         method: "POST",
         timeout: 50000,
         success: createGraphAjaxSuccess,

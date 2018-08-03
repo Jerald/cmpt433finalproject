@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "CMPT 433 Project",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "db-migrate-pg": "^0.4.0",
     "express": "^4.16.3",
     "pg": "^7.4.3",

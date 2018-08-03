@@ -5,10 +5,15 @@ const fs   = require('fs');
 const http = require('http');
 const path = require('path');
 
-const { Client } = require('pg')
+const { Client } = require('pg');
 
 const SERVER_PORT = 8088;
 const server = express();
+
+//so data sent from client is not undefined
+var bodyParser = require('body-parser');
+server.use(bodyParser.json()); // for parsing application/json
+server.use(bodyParser.urlencoded({ extended: true }));
 
 const API_KEY = "6Zn0UN6Uzcwdes3BuiOu";
 const PLOTLY_USERNAME = "Jeraldson";
@@ -23,8 +28,14 @@ const psqlClient = new Client({
 });
 psqlClient.connect();
 
+function addDays(date, days) {
+	  var result = new Date(date);
+	  result.setDate(result.getDate() + days);
+	  return result;
+}
 
-function getGraphDataPoints(res)
+
+function getGraphDataPoints(res, date)
 {	
 	var button1 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 	var button2 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
@@ -36,16 +47,14 @@ function getGraphDataPoints(res)
 	var button8 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 	var buttons = [button1, button2, button3, button4, button5, button6, button7, button8];
 	
-	//var date = "2018-07-29"; //temporary
-	//if no work, change second DD to ZZ and replace YYYY-MM-ZZ with Date + 1
-	var defQuery = "SELECT col_num, EXTRACT(HOUR FROM purchase_date) AS HOUR_START, count(EXTRACT(HOUR FROM purchase_date)) FROM purchases WHERE purchase_date BETWEEN '2018-07-29 00:00:00' AND '2018-07-30 00:00:00' group by HOUR_START, col_num order by col_num, HOUR_START asc";
-	//var newquery = defQuery.replace("YYYY-MM-DD", date);
-	
-	//console.log(newquery);
-	//console.log(defQuery);
-	psqlClient.query(defQuery, function (err, response)
+	var nextDay = addDays(date,1).toISOString().slice(0,10);
+	console.log(date);
+	console.log(nextDay);
+	var query = `SELECT col_num, EXTRACT(HOUR FROM purchase_date) AS HOUR_START, count(EXTRACT(HOUR FROM purchase_date)) FROM purchases WHERE purchase_date BETWEEN '${date}' AND '${nextDay}' group by HOUR_START, col_num order by col_num, HOUR_START asc`;
+	console.log(query);
+
+	psqlClient.query(query, function (err, response)
 	{
-		console.log(response.rows);
         if (err)
         {
             console.log(`Error in database query for buttons\nError is: ${err}`);
@@ -55,6 +64,7 @@ function getGraphDataPoints(res)
         else if (response.rows === undefined || response.rows.length == 0) 
 		{
 			console.log("query returned no rows\n");
+			res.json(buttons);
 			res.end();
 			return;
 		}
@@ -195,13 +205,7 @@ server.get("/", function (req, res)
 
 server.post("/getGraph", function (req, res)
 {
-	console.log("req: " + req);
-	console.log("res: " + res);
-	console.log("data: " + req.data);
-	console.log("data: " + res.data);
-	//console.log("datadate: " + req.data[0]);
-	//console.log("datadate: " + res.data[0]);
-	getGraphDataPoints(res);
+	getGraphDataPoints(res, req.body.date);
 	
 });
 
