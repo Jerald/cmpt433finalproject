@@ -72,8 +72,8 @@ function initGraph(data)
 	var trace7 = {x: HOUR_STARTS, y: data[6], type: graphType, name: bname7};
 	var trace8 = {x: HOUR_STARTS, y: data[7], type: graphType, name: bname8};
 	
-	var yaxis_template = {title: "STARTING HOUR"};
-	var xaxis_template = {title: "PURCHASES"};
+	var xaxis_template = {title: "STARTING HOUR"};
+	var yaxis_template = {title: "PURCHASES"};
 	
 	
 	var graphData = [trace1, trace2, trace3, trace4, trace5, trace6, trace7, trace8];
