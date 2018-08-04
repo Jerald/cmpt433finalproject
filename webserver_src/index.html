@@ -4,8 +4,9 @@
 <body>
 
 <h1 align="center"> POP STATS </h1>
-<label>Counting Since:</label>
-<input id="datetimepicker" type="datetime-local"></input>
+<!--  <label>Counting Since:</label>
+<input id="datetimepicker" type="datetime-local"></input>-->
+<h2 align="left"> All Time Purchases </h2>
 <table class="table table-hover">
   <thead class="thead-dark">
     <tr>
@@ -67,15 +68,26 @@
   </tbody>
 </table>
 
-<h2 align="center"> GRAPHING </h2>
+<h2 align="center">Daily Historical Data</h2>
 <label>Graph Date:</label>
 <input id="datepicker" type="date"></input>
 <label>Graph Type:</label>
 <select id="graphtype">
   <option value="scatter">Scatter</option>
+  <option value="scattergl">ScatterGL</option>
   <option value="bar">Bar</option>
+  <option value="box">Box</option>
+ <!--
+  <option value="pie">Pie</option>
+  <option value="area">Area</option>
+  <option value="heatmap">Heatmap</option>
+  <option value="contour">Contour</option>
   <option value="histogram">Histogram</option>
-  <!-- <option value="audi">Audi</option>-->
+  <option value="histogram2d">Histogram2D</option>
+  <option value="histogram2dcontour">Histogram 2D Contour</option>
+  <option value="ohlc">OHLC</option>
+  <option value="candlestick">Candlestick</option>
+  <option value="table">Table</option>-->
 </select>
 <div id="graph"></div>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>

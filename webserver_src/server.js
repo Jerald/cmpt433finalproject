@@ -15,10 +15,6 @@ var bodyParser = require('body-parser');
 server.use(bodyParser.json()); // for parsing application/json
 server.use(bodyParser.urlencoded({ extended: true }));
 
-//const API_KEY = "6Zn0UN6Uzcwdes3BuiOu";
-//const PLOTLY_USERNAME = "Jeraldson";
-//var plotly = require('plotly')(PLOTLY_USERNAME, API_KEY);
-
 // PostgreSQL database stuff
 const psqlClient = new Client({
     user: 'admin_433',
@@ -34,7 +30,6 @@ function addDays(date, days) {
 	  return result;
 }
 
-
 function getGraphDataPoints(res, date)
 {	
 	var button1 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
@@ -48,10 +43,8 @@ function getGraphDataPoints(res, date)
 	var buttons = [button1, button2, button3, button4, button5, button6, button7, button8];
 	
 	var nextDay = addDays(date,1).toISOString().slice(0,10);
-	console.log(date);
-	console.log(nextDay);
 	var query = `SELECT col_num, EXTRACT(HOUR FROM purchase_date) AS HOUR_START, count(EXTRACT(HOUR FROM purchase_date)) FROM purchases WHERE purchase_date BETWEEN '${date}' AND '${nextDay}' group by HOUR_START, col_num order by col_num, HOUR_START asc`;
-	console.log(query);
+	//console.log(query);
 
 	psqlClient.query(query, function (err, response)
 	{
@@ -75,7 +68,7 @@ function getGraphDataPoints(res, date)
         {
         	if(dbrow ==  numRows)
         	{
-        		console.log("dbrow matches numRows: " + dbrow);
+        		//console.log("dbrow matches numRows: " + dbrow);
         		break;
         	}
         	
@@ -83,7 +76,7 @@ function getGraphDataPoints(res, date)
         	{
         		if(dbrow == numRows)
         		{
-        			console.log("dbrow matches numRows: " + dbrow);
+        			//console.log("dbrow matches numRows: " + dbrow);
         			break;
         		}
         		

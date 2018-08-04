@@ -23,51 +23,36 @@ Date.prototype.toDateInputValue = (function() {
 });
 
 $('#datepicker').change(function(){
-	$.ajax({
-        url: "/getGraph",
-        dataType: "json",
-        data: {"date": $('#datepicker').val()},
-        method: "POST",
-        timeout: 50000,
-        success: createGraphAjaxSuccess,
-        error: (xhr, status, errorThrown) => console.log(`Graph get error\nStatus: ${status}\nError thrown: ${errorThrown}`)
-    });
+	getGraphDataForDate();
 });
 
 $('#graphtype').change(function(){
+	getGraphDataForDate();
+});
+
+function getGraphDataForDate()
+{
+	var date = $('#datepicker').val();
 	$.ajax({
         url: "/getGraph",
         dataType: "json",
-        data: {"date": $('#datepicker').val()},
+        data: {"date": date},
         method: "POST",
         timeout: 50000,
         success: createGraphAjaxSuccess,
         error: (xhr, status, errorThrown) => console.log(`Graph get error\nStatus: ${status}\nError thrown: ${errorThrown}`)
     });
-});
+}
 
 function init()
 {
-	//$('#datepicker').val(new Date().toDateInputValue());
+	//set date for graph to be current day
+	$('#datepicker').val(new Date().toDateInputValue());
+	$('#graphtype').val("scatter");
 	
-	//get request to get earliest time and set datetimepicker to it
-	
-	//console.log("datepicker value: " +  $('#datepicker').val());
-	//console.log("datetimepicker value: " +  $('#datepicker').val());
-	
-	//TODO query for datetimepicker (order by timestamp descending and pick first row)
-	//var test =
-	//console.log("TEST: " + test);
-    $.ajax({
-        url: "/getGraph",
-        dataType: "json",
-        data: {"date":  $('#datepicker').val()},
-        method: "POST",
-        timeout: 50000,
-        success: createGraphAjaxSuccess,
-        error: (xhr, status, errorThrown) => console.log(`Graph get error\nStatus: ${status}\nError thrown: ${errorThrown}`)
-    });
-
+    //display graph
+	getGraphDataForDate();
+    
     // Set the pop table to be updated every UPDATE_RATE number of ms
    	popUpdateInterval = setInterval(popUpdateGet, UPDATE_RATE);
 
@@ -99,17 +84,10 @@ function initGraph(data)
 	return fig;
 }
 
-function updateGraphAjaxSuccess(data)
-{
-	var figure = initGraph(data);
-	Plotly.update(GRAPH_DIV_ID,figure);
-}
-
 function createGraphAjaxSuccess(data)
 {
 	var figure = initGraph(data);
 	Plotly.newPlot(GRAPH_DIV_ID,figure);
-	//Plotly.newPlot(graphDiv, graphData, graphLayout, graphConfig);
 }
 
 function popUpdateGet()
